@@ -25,8 +25,9 @@ public class TagListView : Gtk.FlowBox {
         height_request = 100;
         margin = 6;
         margin_bottom = 0;
-        row_spacing = 3;
-        column_spacing = 3;
+        row_spacing = 2;
+        column_spacing = 2;
+        valign = Gtk.Align.START;
         selection_mode = Gtk.SelectionMode.NONE;
     }
 
