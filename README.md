@@ -1,6 +1,6 @@
 <div align="center">
   <h1>Pantheon Files Text Tags Plugin</h1>
-  <p>A plugin for editing file tags in the elementary OS Files app.</p>
+  <p>A plugin for creating and editing file tags in the elementary OS Files app.</p>
   <a href="https://github.com/paysonwallach/pantheon-files-plugin-text-tags/releases/latest">
     <img alt="Version 0.1.0" src="https://img.shields.io/badge/version-0.1.0-red.svg?cacheSeconds=2592000&style=flat-square" />
   </a>
