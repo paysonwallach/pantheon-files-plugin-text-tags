@@ -1,0 +1,3 @@
+[Plugin]
+Name=Text Tags
+File=libcom.paysonwallach.ttags-plugin.so

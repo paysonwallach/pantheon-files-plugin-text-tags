@@ -1,0 +1,56 @@
+{
+  "private": true,
+  "name": "pantheon-files-plugin-text-tags",
+  "version": "0.1.0",
+  "description": "A plugin for creating and editing file tags in the elementary OS Files app.",
+  "license": "GPL-3.0",
+  "author": "Payson Wallach <payson@paysonwallach.com>",
+  "homepage": "https://github.com/paysonwallach/pantheon-files-plugin-text-tags#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/paysonwallach/pantheon-files-plugin-text-tags"
+  },
+  "bugs": {
+    "url": "https://github.com/paysonwallach/pantheon-files-plugin-text-tags/issues"
+  },
+  "scripts": {
+    "build:meta": "scrivano",
+    "format": "run-p format:*",
+    "format:js": "prettier --write .",
+    "format:package.json": "prettier-package-json --write",
+    "format:vala": "find . -name '*.vala' -exec uncrustify -c uncrustify.cfg --replace {} \\;",
+    "release": "standard-version"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^12.1.1",
+    "@commitlint/config-conventional": "^12.1.1",
+    "husky": "^6.0.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.2.1",
+    "prettier-package-json": "^2.1.3",
+    "scrivano": "^0.1.0",
+    "standard-version": "^9.2.0"
+  },
+  "meta": {
+    "title": "Pantheon Files Text Tags Plugin",
+    "repository": {
+      "owner": "paysonwallach",
+      "name": "pantheon-files-plugin-text-tags"
+    },
+    "license": {
+      "name": "GNU General Public License v3.0",
+      "url": "https://github.com/paysonwallach/pantheon-files-plugin-text-tags/blob/master/LICENSE"
+    },
+    "codeOfConduct": {
+      "url": "https://github.com/paysonwallach/pantheon-files-plugin-text-tags/blob/master/CODE_OF_CONDUCT.md"
+    },
+    "releases": {
+      "url": "https://github.com/paysonwallach/pantheon-files-plugin-text-tags/releases"
+    }
+  },
+  "standard-version": {
+    "scripts": {
+      "precommit": "npm run build:meta"
+    }
+  }
+}
