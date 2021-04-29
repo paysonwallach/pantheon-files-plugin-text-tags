@@ -7,17 +7,6 @@ project(
 gnome = import('gnome')
 vala = meson.get_compiler('vala')
 
-add_project_arguments(
-  '-DGETTEXT_PACKAGE=@0@'.format(meson.project_name()),
-  language:'c'
-)
-
-as_resources = gnome.compile_resources(
-  'as-resources',
-  'data/' + meson.project_name() + '.gresource.xml',
-  source_dir: 'data',
-)
-
 prefix = get_option('prefix')
 lib_dir = get_option('libdir')
 files_plugin_dir = join_paths(prefix, lib_dir, 'io.elementary.files', 'plugins')
@@ -31,6 +20,19 @@ json_dep = dependency('json-glib-1.0')
 pango_dep = dependency('pango')
 pantheon_files_core_dep = dependency('pantheon-files-core')
 posix_dep = vala.find_library('posix')
+
+as_resources = gnome.compile_resources(
+  'as-resources',
+  'data/' + meson.project_name() + '.gresource.xml',
+  source_dir: 'data',
+)
+
+add_project_arguments([
+    '-DG_LOG_DOMAIN="@0@"'.format(meson.project_name()),
+    '-DGETTEXT_PACKAGE="@0@"'.format(meson.project_name())
+  ],
+  language:'c'
+)
 
 subdir('data')
 subdir('src')
