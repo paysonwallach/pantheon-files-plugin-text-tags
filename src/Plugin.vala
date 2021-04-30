@@ -57,13 +57,9 @@ public class Marlin.Plugins.TTags : Marlin.Plugins.Base {
         if (gof_files == null)
             return;
 
-        foreach (var gof_file in gof_files) {
-            if (gof_file.info == null || !gof_file.info.has_attribute (FileAttribute.ACCESS_CAN_WRITE))
+        foreach (var gof_file in gof_files)
+            if (gof_file.info == null)
                 return;
-
-            if (!gof_file.info.get_attribute_boolean (FileAttribute.ACCESS_CAN_WRITE))
-                return;
-        }
 
         add_menuitem (
             menu,
