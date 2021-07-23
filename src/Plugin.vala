@@ -15,10 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class Marlin.Plugins.TagsMenuItem : Gtk.MenuItem {
+public class Files.Plugins.TagsMenuItem : Gtk.MenuItem {
     private File[] files;
 
-    public TagsMenuItem (File[] files) {
+    public TagsMenuItem (GLib.File[] files) {
         this.files = files;
         this.label = @"Edit tags";
     }
@@ -34,13 +34,13 @@ public class Marlin.Plugins.TagsMenuItem : Gtk.MenuItem {
 
 }
 
-public class Marlin.Plugins.TTags : Marlin.Plugins.Base {
+public class Files.Plugins.TTags : Files.Plugins.Base {
     private Gtk.Menu menu;
 
-    private static File[] get_file_array (List<GOF.File> files) {
-        var file_array = new GenericArray<File> ();
+    private static GLib.File[] get_file_array (List<Files.File> files) {
+        var file_array = new GenericArray<GLib.File> ();
 
-        foreach (unowned GOF.File file in files)
+        foreach (unowned Files.File file in files)
             if (file.location != null)
                 if (file.location.get_uri_scheme () == "recent")
                     file_array.add (
@@ -51,7 +51,7 @@ public class Marlin.Plugins.TTags : Marlin.Plugins.Base {
         return file_array.data;
     }
 
-    public override void context_menu (Gtk.Widget widget, List<GOF.File> gof_files) {
+    public override void context_menu (Gtk.Widget widget, List<Files.File> gof_files) {
         menu = widget as Gtk.Menu;
 
         if (gof_files == null)
@@ -76,6 +76,6 @@ public class Marlin.Plugins.TTags : Marlin.Plugins.Base {
 
 }
 
-public Marlin.Plugins.Base module_init () {
-    return new Marlin.Plugins.TTags ();
+public Files.Plugins.Base module_init () {
+    return new Files.Plugins.TTags ();
 }
