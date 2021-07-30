@@ -3,7 +3,6 @@ shared_module (
   'Controllers/TTagsDialogController.vala',
   'Controllers/TagListViewController.vala',
   'Models/Tag.vala',
-  'Utils/OrderedSet.vala',
   'Views/TTagsDialog.vala',
   'Views/TagListView.vala',
   'Views/TagView.vala',

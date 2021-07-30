@@ -22,8 +22,8 @@ public class TTagsDialogController : Object {
     private Json.Parser parser;
 
     private File[] files;
-    private OrderedSet<Tag> tags;
-    private OrderedSet<Tag> deleted;
+    private Gee.ArrayList<Tag> tags;
+    private Gee.ArrayList<Tag> deleted;
 
     private TTagsDialog _dialog;
 
@@ -38,9 +38,12 @@ public class TTagsDialogController : Object {
 
         generator = new Json.Generator ();
         parser = new Json.Parser ();
-        deleted = new OrderedSet<Tag> ();
+        deleted = new Gee.ArrayList<Tag> ();
 
         tags = get_tags_for_files (files);
+        tags.sort ((a, b) => {
+            return strcmp (((Tag) a).value, ((Tag) b).value);
+        });
 
         var tag_store = new ListStore (typeof (Tag));
         foreach (var tag in tags)
@@ -58,8 +61,17 @@ public class TTagsDialogController : Object {
 
         _dialog.entry_activated.connect ((text) => {
             var tag = new Tag (text);
-            if (tags.add (tag))
-                tag_store.append (tag);
+            if (tags.contains (tag))
+                return;
+
+            var index = 0;
+            if (tags.size > 0)
+                for (index = 0 ; index < tags.size ; index++)
+                    if (strcmp (tags[index].value, tag.value) == 1)
+                        break;
+
+            tags.insert (index, tag);
+            tag_store.insert (index, tag);
         });
     }
 
@@ -70,8 +82,13 @@ public class TTagsDialogController : Object {
                     FILE_ATTRIBUTE_TAGS, FileQueryInfoFlags.NONE);
                 var file_tags = get_tags_for_file (file);
 
-                file_tags.add_all (tags);
-                file_tags.remove_all (deleted);
+                foreach (var tag in tags)
+                    if (!file_tags.contains (tag))
+                        file_tags.add (tag);
+
+                foreach (var tag in deleted)
+                    if (file_tags.contains (tag))
+                        file_tags.remove (tag);
 
                 file_info.set_attribute_string (
                     FILE_ATTRIBUTE_TAGS,
@@ -85,8 +102,8 @@ public class TTagsDialogController : Object {
         }
     }
 
-    private OrderedSet<Tag> get_tags_for_files (File[] files) {
-        var tags_intersection = new OrderedSet<Tag> ();
+    private Gee.ArrayList<Tag> get_tags_for_files (File[] files) {
+        var tags_intersection = new Gee.ArrayList<Tag> ();
 
         foreach (var file in files) {
             var tags = get_tags_for_file (file);
@@ -100,7 +117,7 @@ public class TTagsDialogController : Object {
         return tags_intersection;
     }
 
-    private OrderedSet<Tag> get_tags_for_file (File file) {
+    private Gee.ArrayList<Tag> get_tags_for_file (File file) {
         FileInfo? file_info = null;
         try {
             file_info = file.query_info (
@@ -110,20 +127,21 @@ public class TTagsDialogController : Object {
         }
         var tags_string = file_info.get_attribute_string (FILE_ATTRIBUTE_TAGS);
 
-        OrderedSet<Tag> tags;
+        Gee.ArrayList<Tag> tags;
         if (tags_string == null)
-            tags = new OrderedSet<Tag> ();
+            tags = new Gee.ArrayList<Tag> ();
         else
             tags = set_from_array (array_from_string (tags_string));
 
         return tags;
     }
 
-    private OrderedSet<Tag> set_from_array (Tag[] arr) {
-        var set = new OrderedSet<Tag> ();
+    private Gee.ArrayList<Tag> set_from_array (Tag[] arr) {
+        var set = new Gee.ArrayList<Tag> ();
 
         foreach (var elem in arr)
-            set.add (elem);
+            if (!set.contains (elem))
+                set.add (elem);
 
         return set;
     }
